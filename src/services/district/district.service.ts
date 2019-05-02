@@ -2,12 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { District } from '../../interfaces/district.interface';
+import { DistrictDto } from '../../models/index.models';
 
 @Injectable()
 export class DistrictService {
   constructor(@InjectModel('District') private readonly districtModel: Model<District>) {}
 
-  async createDistrict(district) {
+  async createDistrict(district: DistrictDto) {
     return await new this.districtModel(district).save();
   }
 
@@ -19,11 +20,13 @@ export class DistrictService {
     return await this.districtModel.findById(id);
   }
 
-  async updateDistrict(id: string, district) {
+  async updateDistrict(id: string, district: DistrictDto) {
     return await this.districtModel.findByIdAndUpdate(id, district);
   }
 
-  async addCommuneDistrict(id: string, commune: string) {
-    return await this.districtModel.findByIdAndUpdate(id, { commune });
+  async addCommuneDistrict(district: string, commune: string) {
+    return await this.districtModel.findByIdAndUpdate(district, { commune });
   }
+
+  // removeCommuneDistrict
 }

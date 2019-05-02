@@ -1,5 +1,5 @@
 import { Document } from 'mongoose';
-import { Affiliate } from './iaffiliate.interface';
+import { Affiliate } from './affiliate.interface';
 
 export interface Committee extends Document {
   readonly code: string;

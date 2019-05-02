@@ -3,7 +3,7 @@ import { User } from './user.interface';
 import { Member } from './member.interface';
 import { District } from './district.interface';
 import { Committee } from './committee.interface';
-import { Affiliate } from './iaffiliate.interface';
+import { Affiliate } from './affiliate.interface';
 
 export interface CommunityAction extends Document {
   readonly code: string;

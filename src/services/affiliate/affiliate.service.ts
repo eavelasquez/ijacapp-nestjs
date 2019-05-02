@@ -1,13 +1,16 @@
-import { Injectable } from '@nestjs/common';
-import { Model } from 'mongoose';
+import { Injectable, forwardRef, Inject } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Affiliate } from '../../interfaces/iaffiliate.interface';
+import { Model } from 'mongoose';
+import { Affiliate } from '../../interfaces/affiliate.interface';
+import { CommitteeService } from '../committee/committee.service';
+import { AffiliateDto } from '../../models/index.models';
 
 @Injectable()
 export class AffiliateService {
-  constructor(@InjectModel('Affiliate') private readonly affiliateModel: Model<Affiliate>) {}
+  constructor(@InjectModel('Affiliate') private readonly affiliateModel: Model<Affiliate>,
+              @Inject(forwardRef(() => CommitteeService)) private readonly committeeService: CommitteeService) {}
 
-  async createAffiliate(affiliateCreate) {
+  async createAffiliate(affiliateCreate: AffiliateDto) {
     return await new this.affiliateModel(affiliateCreate).save();
   }
 
@@ -19,11 +22,15 @@ export class AffiliateService {
     return await this.affiliateModel.findById(id);
   }
 
-  async updateAffiliate(id: string, affiliateUpdate) {
-    return await this.affiliateModel.findOneAndUpdate(id, affiliateUpdate);
+  async updateAffiliate(id: string, affiliateUpdate: AffiliateDto) {
+    return await this.affiliateModel.findByIdAndUpdate(id, affiliateUpdate);
   }
 
-  async addCommittee(idAffiliate: string, idCommittee: string) {
-    return await this.affiliateModel.findOneAndUpdate(idAffiliate, { $push: { commit: idCommittee } });
+  async addCommittee(affiliate: string, committee: string) {
+    return await this.affiliateModel.findByIdAndUpdate(affiliate, { $push: { commit: committee } });
+  }
+
+  async removeCommittee(affiliate: string, committee: string) {
+    return await this.affiliateModel.findByIdAndUpdate(affiliate, { $pull: { commit: committee } });
   }
 }
