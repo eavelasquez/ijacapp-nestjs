@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/jacapp-nestjs.iml" filepath="$PROJECT_DIR$/.idea/jacapp-nestjs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ijacapp-nestjs.iml" filepath="$PROJECT_DIR$/.idea/ijacapp-nestjs.iml" />
     </modules>
   </component>
 </project>
