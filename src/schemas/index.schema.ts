@@ -5,3 +5,5 @@ export { CommunityActionSchema } from './community-action.schema';
 export { DistrictSchema } from './district.schema';
 export { MemberSchema } from './member.schema';
 export { UserSchema } from './user.schema';
+export { BookSchema } from './book.schema';
+export { AssemblySchema } from './assembly.schema';

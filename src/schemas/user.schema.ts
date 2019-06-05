@@ -12,7 +12,6 @@ export const UserSchema: Schema = new Schema({
   email: { type: String, required: [true, 'Email - Dato requerido'], unique: true },
   password: { type: String, required: true },
   role: { type: String, enum: roles, default: 'USER_ROLE', required: [true, 'Rol - Dato requerido'] },
-  communityAction: { type: Schema.Types.ObjectId, ref: 'CommunityAction', required: false },
   logged: { type: Boolean, default: false },
   status: { type: Boolean, default: true },
 });
