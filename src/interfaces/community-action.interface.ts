@@ -11,7 +11,7 @@ export interface CommunityAction extends Document {
   readonly telephone: string;
   readonly email: string;
   readonly user: User;
-  readonly members: Member[];
+  readonly members?: Member[];
   readonly district: District;
   readonly committees?: Committee[];
   readonly affiliates?: Affiliate[];

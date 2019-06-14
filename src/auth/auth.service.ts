@@ -8,12 +8,13 @@ export class AuthService {
   constructor(private readonly userService: UserService,
               private readonly jwtService: JwtService) {}
 
-  async signIn(email: string): Promise<string> {
-    const user: JwtPayload = { email };
+  async signIn(username: string): Promise<string> {
+    const user: JwtPayload = { username };
+    const access = this.jwtService.sign(user);
     return this.jwtService.sign(user);
   }
 
   async validateUser(payload: JwtPayload) {
-    return await this.userService.findOneByEmail(payload.email);
+    return await this.userService.findOneByUsername(payload.username);
   }
 }

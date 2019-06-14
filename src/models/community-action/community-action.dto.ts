@@ -6,7 +6,7 @@ export class CommunityActionDto {
   readonly telephone: string;
   readonly email: string;
   readonly user: UserDto;
-  readonly members: MemberDto[];
+  readonly members?: MemberDto[];
   readonly district: DistrictDto;
   readonly committees?: CommitteeDto[];
   readonly affiliates?: AffiliateDto[];
