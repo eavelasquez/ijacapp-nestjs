@@ -1,6 +1,5 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CommunityActionService } from '../../services/community-action/community-action.service';
-import { async } from 'rxjs/internal/scheduler/async';
 
 @Controller('community-action')
 export class CommunityActionController {
