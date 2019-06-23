@@ -10,11 +10,16 @@ export class AuthService {
 
   async signIn(username: string): Promise<string> {
     const user: JwtPayload = { username };
-    const access = this.jwtService.sign(user);
     return this.jwtService.sign(user);
   }
 
   async validateUser(payload: JwtPayload) {
-    return await this.userService.findOneByUsername(payload.username);
+    const token = await this.signIn(payload.username);
+    const validate = await this.userService.findOneByUsername(payload.username, payload.password);
+    if (validate) {
+      return { token, validate };
+    } else {
+      return { message: 'Error' };
+    }
   }
 }

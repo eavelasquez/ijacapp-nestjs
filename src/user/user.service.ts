@@ -20,8 +20,17 @@ export class UserService {
     return await this.userModel.findById(id);
   }
 
-  async findOneByUsername(email: string) {
-    return await this.userModel.findOne({ email });
+  async findOneByUsername(username: string, password: string) {
+    return await this.userModel.findOne({ username }, 'name surname username role', (err, res) => {
+      if (err) { return err; }
+      if (!res) {
+        return 'Algo falló';
+      } else {
+        if (password === res.password) {
+          return res;
+        }
+      }
+    });
   }
 
   async updateUser(id: string, user: UserDto) {

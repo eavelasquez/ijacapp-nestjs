@@ -1,0 +1,64 @@
+GET http://localhost:3000/user HTTP/1.1
+
+###
+POST http://localhost:3000/auth HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "estradacallemariana",
+    "password": "123456"
+}
+
+###
+GET http://localhost:3000/community-action HTTP/1.1
+
+###
+// Communes
+GET http://localhost:3000/commune HTTP/1.1
+
+###
+POST http://localhost:3000/commune HTTP/1.1
+Content-Type: application/json
+
+# { "code": "01", "name": "Popular", "zone": "Nororiental" },
+# { "code": "02", "name": "Santa Cruz", "zone": "Nororiental" },
+# { "code": "03", "name": "Manrique", "zone": "Nororiental" },
+# { "code": "04", "name": "Aranjuez", "zone": "Nororiental" },
+# { "code": "05", "name": "Castilla", "zone": "Noroccidental" },
+# { "code": "06", "name": "Doce de Octubre", "zone": "Noroccidental" },
+# { "code": "07", "name": "Robledo", "zone": "Noroccidental" },
+# { "code": "08", "name": "Villa Hermosa", "zone": "Centro oriental" },
+# { "code": "09", "name": "Buenos Aires", "zone": "Centro oriental" },
+# { "code": "10", "name": "La Candelaria", "zone": "Centro oriental" },
+# { "code": "11", "name": "Laureles - Estadio", "zone": "Centro occidental" },
+# { "code": "12", "name": "La Ámerica", "zone": "Centro occidental" },
+# { "code": "13", "name": "San Javier", "zone": "Centro occidental" },
+# { "code": "14", "name": "Poblado", "zone": "Suroriental" },
+# { "code": "15", "name": "Guayabal", "zone": "Suroccidental" },
+# { "code": "16", "name": "Belén", "zone": "Suroccidental" }
+
+###
+POST http://localhost:3000/district HTTP/1.1
+Content-Type: application/json
+
+{
+    "code": "01",
+    "name": "La Salle",
+    "commune": "5d0e9090c99ebd2760d4c9a4",
+    "postal": "050005"
+},
+{
+    "code": "02",
+    "name": "Jardín",
+    "commune": "5d0e9090c99ebd2760d4c9a4",
+    "postal": "050005"
+},
+{
+    "code": "03",
+    "name": "San José de la Cima No. 1",
+    "commune": "5d0e9090c99ebd2760d4c9a4",
+    "postal": "050005"
+}
+
+###
+GET http://localhost:3000/district HTTP/1.1
