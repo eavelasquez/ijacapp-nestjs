@@ -17,7 +17,7 @@ import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/ijacapp', { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false }),
+    MongooseModule.forRoot('mongodb://localhost:27017/ijacapps', { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false }),
     MongooseModule.forFeature([
       { name: 'Affiliate', schema: AffiliateSchema },
       { name: 'Committee', schema: CommitteeSchema },

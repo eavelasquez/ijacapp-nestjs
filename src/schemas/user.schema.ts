@@ -6,7 +6,6 @@ export const roles = {
 };
 
 export const UserSchema: Schema = new Schema({
-  id: { type: String, required: [true, 'Identificación - Dato requerido'], unique: true },
   name: { type: String, required: [true, 'Nombre - Dato requerido'] },
   surname: { type: String, required: [true, 'Apellido - Dato requerido'] },
   username: { type: String, required: [true, 'Nombre de usuario - Dato requerido'], unique: true },

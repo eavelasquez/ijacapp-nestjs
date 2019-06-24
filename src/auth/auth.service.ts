@@ -5,8 +5,7 @@ import { JwtPayload } from './interfaces/jwt-payload.interface';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userService: UserService,
-              private readonly jwtService: JwtService) {}
+  constructor(private readonly userService: UserService, private readonly jwtService: JwtService) {}
 
   async signIn(username: string): Promise<string> {
     const user: JwtPayload = { username };

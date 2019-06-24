@@ -3,53 +3,65 @@ import { Model } from 'mongoose';
 import { User } from '../interfaces/user.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { UserDto } from '../models/index.models';
+import { EncryptPipe } from '../pipes/encrypt.pipe';
+import * as bcrypt from 'bcrypt';
+import { CustomHttpException } from '../utils/custom-http-exception';
 
 @Injectable()
 export class UserService {
   constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
 
-  async createUser(user: UserDto) {
-    return await new this.userModel(user).save();
+  async createUser(userDto: UserDto): Promise<User | void> {
+    userDto.password = new EncryptPipe().transform(userDto.password);
+    const userCreated = new this.userModel(userDto);
+    return await userCreated.save().catch(reason => {
+      throw CustomHttpException.saveException(reason);
+    });
   }
 
-  async findAllUsers() {
-    return await this.userModel.find();
+  async findAllUsers(): Promise<User[] | void> {
+    return await this.userModel.find({}, 'name surname role logged').exec().catch(reason => {
+      CustomHttpException.serverError(reason);
+    });
   }
 
-  async findOneUser(id: string) {
-    return await this.userModel.findById(id);
-  }
-
-  async findOneByUsername(username: string, password: string) {
-    return await this.userModel.findOne({ username }, 'name surname username role', (err, res) => {
-      if (err) { return err; }
-      if (!res) {
-        return 'Algo falló';
-      } else {
-        if (password === res.password) {
-          return res;
-        }
-      }
+  async findOneUser(id: string): Promise<User | void> {
+    return await this.userModel.findById(id, 'name surname role logged').exec().catch(() => {
+      CustomHttpException.notFound('No se ha encontrado ese usuario');
     });
   }
 
   async updateUser(id: string, user: UserDto) {
+    await this.usernameExist(user.username).then(() => {
+      return this.userModel.findByIdAndUpdate(id, user);
+    }).catch(reason => {
+      throw CustomHttpException.serverError(reason);
+    });
     return await this.userModel.findByIdAndUpdate(id, user);
   }
 
-  async login(username: string, password: string) {
-    return await this.userModel.findOne({ username }, (err, res) => {
+  async usernameExist(username: string) {
+    return await this.userModel.findOne({username}, 'name surname role logged', (err, res) => {
       if (err) {
-        return '';
-      } else if (res) {
-        if (password === res.password) {
-          return res;
-        }
+        throw CustomHttpException.notFound('No se ha encontrado ese nombre de usuario');
       }
+      return res;
     });
   }
 
-  async setUserCommunityAction(user: string, communityAction: string) {
-    return await this.userModel.findByIdAndUpdate(user, { logged: true, communityAction });
+  async findOneByUsername(username: string, password: string) {
+    await this.userModel.findOne({ username }, 'name surname username role', (err, res: User) => {
+      if (err) {
+        throw CustomHttpException.internalError;
+      } else if (res) {
+        if (!bcrypt.compareSync(password, res.password)) {
+          throw CustomHttpException.unauthorizedException('Nombre de usuario o contraseña inválidos');
+        } else {
+          return res;
+        }
+      } else {
+        throw CustomHttpException.unauthorizedException('Nombre de usuario o contraseña inválidos');
+      }
+    });
   }
 }
