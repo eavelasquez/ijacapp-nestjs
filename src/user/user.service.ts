@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { User } from '../interfaces/user.interface';
 import { InjectModel } from '@nestjs/mongoose';
@@ -50,18 +50,21 @@ export class UserService {
   }
 
   async findOneByUsername(username: string, password: string) {
-    await this.userModel.findOne({ username }, 'name surname username role', (err, res: User) => {
+    let exception: HttpException;
+    let value: User;
+    await this.userModel.findOne({username}, 'name surname username password role', (err, res: User) => {
       if (err) {
-        throw CustomHttpException.internalError;
+        exception = CustomHttpException.internalError(err);
       } else if (res) {
         if (!bcrypt.compareSync(password, res.password)) {
-          throw CustomHttpException.unauthorizedException('Nombre de usuario o contraseña inválidos');
+          exception = CustomHttpException.unauthorizedException('Nombre de usuario o contraseña inválidos');
         } else {
-          return res;
+          value = res;
         }
       } else {
-        throw CustomHttpException.unauthorizedException('Nombre de usuario o contraseña inválidos');
+        exception = CustomHttpException.unauthorizedException('Nombre de usuario o contraseña inválidos');
       }
     });
+    return value === null ? Promise.reject(exception) : Promise.resolve(value);
   }
 }

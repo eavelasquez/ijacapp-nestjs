@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from '../interfaces/user.interface';
 import { UserDto } from '../models/user/user.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('user')
 export class UserController {
@@ -13,6 +14,7 @@ export class UserController {
   }
 
   @Get()
+  @UseGuards(AuthGuard())
   async usersFindAll(): Promise<User[] | void> {
     return await this.userService.findAllUsers().then(value => value);
   }

@@ -20,13 +20,6 @@ export class CustomHttpException {
     }
   }
 
-  public static notFound(message: string): HttpException {
-    return new HttpException({
-        status: HttpStatus.BAD_REQUEST,
-        error: message,
-    }, 400);
-  }
-
   public static internalError(err): HttpException {
     return new HttpException({
       status: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -34,10 +27,17 @@ export class CustomHttpException {
     }, 500);
   }
 
-  public static unauthorizedException(err: string): HttpException {
+  public static unauthorizedException(err: string) {
     return new HttpException({
-      status: HttpStatus.FORBIDDEN,
+      status: HttpStatus.UNAUTHORIZED,
       error: err,
-    }, 403);
+    }, 401);
+  }
+
+  public static notFound(message: string): HttpException {
+    return new HttpException({
+      status: HttpStatus.NOT_FOUND,
+      error: message,
+    }, 404);
   }
 }
