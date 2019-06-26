@@ -14,7 +14,6 @@ export class UserController {
   }
 
   @Get()
-  @UseGuards(AuthGuard())
   async usersFindAll(): Promise<User[] | void> {
     return await this.userService.findAllUsers().then(value => value);
   }

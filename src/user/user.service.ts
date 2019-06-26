@@ -27,7 +27,7 @@ export class UserService {
 
   async findOneUser(id: string): Promise<User | void> {
     return await this.userModel.findById(id, 'name surname role logged').exec().catch(() => {
-      CustomHttpException.notFound('No se ha encontrado ese usuario');
+      throw CustomHttpException.notFound('No se ha encontrado ese usuario');
     });
   }
 
@@ -38,6 +38,12 @@ export class UserService {
       throw CustomHttpException.serverError(reason);
     });
     return await this.userModel.findByIdAndUpdate(id, user);
+  }
+
+  async deleteUser(id: string) {
+    await this.userModel.findByIdAndRemove(id).catch(() => {
+      throw CustomHttpException.notFound('No se encuentra ese usuario');
+    })
   }
 
   async usernameExist(username: string) {
