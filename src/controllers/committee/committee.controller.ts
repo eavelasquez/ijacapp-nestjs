@@ -27,7 +27,7 @@ export class CommitteeController {
   }
 
   @Put('/affiliate/:id')
-  async addAffiliatesCommittee(@Param('id') committee: string, @Body('affiliate') affiliate: string) {
+  async addAffiliatesCommittee(@Param('id') committee: string, @Body() affiliate: string) {
     return await this.committeeService.addAffiliatesCommittee(committee, affiliate);
   }
 }

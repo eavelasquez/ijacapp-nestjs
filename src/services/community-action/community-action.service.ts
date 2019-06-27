@@ -66,7 +66,7 @@ export class CommunityActionService {
   async addAffiliatesCommunityAction(communityAction: string, affiliate: string) {
     return await this.communityActionModel.findByIdAndUpdate(communityAction, { $push: { affiliates: affiliate } });
   }
-  async removeAffiliatesCommunityAction(communityAction: string, affiliate: string) {
+  async removeAffiliatesCommunityAction(communityAction: string, affiliate: string[]) {
     return await this.communityActionModel.findByIdAndUpdate(communityAction, { $pull: { affiliates: affiliate } });
   }
 }
