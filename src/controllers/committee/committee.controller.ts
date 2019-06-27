@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { CommitteeService } from '../../services/committee/committee.service';
+import { async } from 'rxjs/internal/scheduler/async';
 
 @Controller('committee')
 export class CommitteeController {
@@ -20,13 +21,13 @@ export class CommitteeController {
     return await this.committeeService.createCommittee(body);
   }
 
-  @Put('update')
-  async addAffiliatesCommittee(@Body() body) {
-    return await this.committeeService.addAffiliatesCommittee(body.committee, body.affiliate);
-  }
-
   @Put(':id')
   async updateCommittee(@Param('id') id, @Body() body) {
     return await this.committeeService.updateCommittee(id, body);
+  }
+
+  @Put('/affiliate/:id')
+  async addAffiliatesCommittee(@Param('id') committee: string, @Body('affiliate') affiliate: string) {
+    return await this.committeeService.addAffiliatesCommittee(committee, affiliate);
   }
 }
