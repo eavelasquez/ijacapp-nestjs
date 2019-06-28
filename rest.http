@@ -62,3 +62,7 @@ Content-Type: application/json
 
 ###
 GET http://localhost:3000/district HTTP/1.1
+
+###
+
+GET http://localhost:3000/book/csv/10
